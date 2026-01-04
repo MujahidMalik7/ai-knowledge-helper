@@ -1,7 +1,6 @@
 # 📄 RAG Chatbot using Ollama Mistral
 
-
-https://github.com/user-attachments/assets/0510c640-3253-4795-afa4-ff4c333e5c45
+https://github.com/user-attachments/assets/a888c955-de79-462b-b568-431e4bed79de
 
 
 A Retrieval-Augmented Generation (RAG) system that allows users to upload documents and ask questions about their content using local LLM.
