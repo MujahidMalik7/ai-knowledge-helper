@@ -21,7 +21,7 @@ A Retrieval-Augmented Generation (RAG) system that allows users to upload docume
 ## 📋 Prerequisites (Windows)
 
 Before installation, you need:
-- Python 3.8 or higher
+- Python 3.10
 - Ollama installed
 - Tesseract OCR installed
 
@@ -219,7 +219,7 @@ rag-chatbot/
 
 ## 🔄 Quick Start Checklist
 
-- [ ] Python 3.8+ installed
+- [ ] Python 3.10 installed
 - [ ] Ollama installed and `ollama --version` works
 - [ ] Tesseract installed and `tesseract --version` works
 - [ ] Virtual environment created and activated
