@@ -1,4 +1,4 @@
-# 📄 RAG Chatbot using Ollama Mistral
+# 📄 RAG Chatbot using Ollama Mistral7B
 
 https://github.com/user-attachments/assets/a888c955-de79-462b-b568-431e4bed79de
 
