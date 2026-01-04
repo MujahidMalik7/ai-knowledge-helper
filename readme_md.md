@@ -1,232 +1,239 @@
-# AI Knowledge Helper - RAG System with Mistral 7B
+# 📄 RAG Chatbot using Ollama Mistral
 
-A Retrieval-Augmented Generation (RAG) system built with FastAPI and Mistral 7B (via Ollama) for intelligent document Q&A.
+A Retrieval-Augmented Generation (RAG) system that allows users to upload documents and ask questions about their content using local LLM.
 
-## 🎯 Features
+## ✨ Features
 
-- **Document Upload**: Process PDFs, TXT, CSV, and image files
-- **Smart Q&A**: Answer questions using RAG pipeline with Mistral 7B
-- **Auto-Summarization**: Generate document summaries (ML Component)
-- **Evaluation Metrics**: Retrieval quality scoring
-- **Reranking**: Cross-encoder for improved accuracy
+- Multi-format document support (PDF, DOCX, CSV, TXT)
+- OCR support for scanned PDFs
+- AI-powered document summarization
+- Conversation memory with chat history download
+- Completely local - no API costs
 
-## 📋 Assignment Components
+## 🛠️ Technology Stack
 
-### ✅ Part 1: Data Processing
-- Document ingestion with OCR fallback
-- Text cleaning and chunking (800 chars, 150 overlap)
-- Embeddings with `BAAI/bge-base-en-v1.5`
-- FAISS vector database
+- **LLM**: Ollama Mistral 7B
+- **Embeddings**: SentenceTransformers (BAAI/bge-base-en-v1.5)
+- **Vector DB**: FAISS
+- **Reranking**: CrossEncoder (ms-marco-MiniLM-L-6-v2)
+- **Frontend**: Streamlit
 
-### ✅ Part 2: Retrieval-Augmented QA
-- Query embedding → FAISS search → Cross-encoder reranking
-- Mistral 7B answer generation via Ollama
-- **Bonus**: Retrieval evaluation metrics
+## 📋 Prerequisites (Windows)
 
-### ✅ Part 3: ML Component (Auto-Summarization)
-- Automatic document summarization on upload
-- Uses Mistral 7B for high-quality summaries
+Before installation, you need:
+- Python 3.8 or higher
+- Ollama installed
+- Tesseract OCR installed
 
-### ✅ Part 4: API Deployment
-- RESTful API with FastAPI
-- Endpoints: `/upload`, `/ask`, `/summary`, `/stats`
+---
 
-## 🚀 Setup Instructions
+## 🚀 Installation Guide (Windows)
 
-### Prerequisites
-1. **Python 3.9+**
-2. **Ollama** (for Mistral 7B)
-3. **System dependencies** (Linux/Mac):
-   ```bash
-   # Ubuntu/Debian
-   sudo apt-get install tesseract-ocr poppler-utils
-   
-   # macOS
-   brew install tesseract poppler
-   ```
+### Step 1: Install Ollama
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd ai-knowledge-helper
-   ```
-
-2. **Create virtual environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Install and start Ollama**
-   ```bash
-   # Install Ollama from https://ollama.ai
-   
-   # Pull Mistral 7B
-   ollama pull mistral:7b
-   
-   # Start Ollama server (in separate terminal)
-   ollama serve
-   ```
-
-## 🎮 Usage
-
-### Start the API server
+1. Download Ollama for Windows from: https://ollama.ai
+2. Run the installer
+3. Open Command Prompt and verify installation:
 ```bash
-python main.py
+ollama --version
 ```
 
-The API will be available at `http://localhost:8000`
+### Step 2: Install Tesseract OCR
 
-### API Documentation
-Visit `http://localhost:8000/docs` for interactive Swagger UI
+1. Download Tesseract installer from: https://github.com/UB-Mannheim/tesseract/wiki
+2. Run the installer (use default installation path: `C:\Program Files\Tesseract-OCR`)
+3. Add Tesseract to PATH:
+   - Search "Environment Variables" in Windows
+   - Click "Environment Variables"
+   - Under "System variables", find "Path" and click "Edit"
+   - Click "New" and add: `C:\Program Files\Tesseract-OCR`
+   - Click "OK" on all windows
 
-### Example Usage
-
-#### 1. Upload a document
+4. Verify installation in Command Prompt:
 ```bash
-curl -X POST "http://localhost:8000/upload" \
-  -F "file=@your_document.pdf"
+tesseract --version
 ```
 
-**Response:**
-```json
-{
-  "status": "success",
-  "filename": "your_document.pdf",
-  "chunks_created": 45,
-  "summary": "This document discusses...",
-  "message": "Document processed and ready for questions"
-}
-```
+### Step 3: Clone/Download Project
 
-#### 2. Ask a question
+Download or clone this repository to your local machine.
+
+### Step 4: Create Virtual Environment
+
+Open Command Prompt in project folder:
 ```bash
-curl -X POST "http://localhost:8000/ask" \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is the main topic of the document?"}'
+python -m venv venv
+venv\Scripts\activate
 ```
 
-**Response:**
-```json
-{
-  "answer": "The main topic is...",
-  "relevance_score": 0.82,
-  "retrieved_chunks": ["chunk1...", "chunk2..."],
-  "metadata": {
-    "evaluation": {
-      "avg_score": 0.82,
-      "quality": "Excellent",
-      "num_chunks": 5
-    }
-  }
-}
-```
-
-#### 3. Get document summary
-```bash
-curl -X GET "http://localhost:8000/summary"
-```
-
-#### 4. Check system stats
-```bash
-curl -X GET "http://localhost:8000/stats"
-```
-
-## 📊 Evaluation Metrics
-
-The system includes built-in evaluation:
-
-- **Relevance Score**: 0.0 - 1.0 (FAISS similarity)
-- **Quality Rating**: Excellent (>0.7) | Good (>0.55) | Moderate (>0.4) | Low
-- **Retrieval Stats**: Number of chunks, top score
-
-## 🏗️ Project Structure
-
-```
-ai-knowledge-helper/
-├── main.py              # FastAPI application
-├── requirements.txt     # Python dependencies
-├── README.md           # This file
-├── test_documents/     # Sample documents for testing
-└── report.md          # Assignment report (2-3 pages)
-```
-
-## 🔧 Configuration
-
-Edit these variables in `main.py`:
-
-```python
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "mistral:7b"
-
-# Chunk settings
-chunk_size = 800
-chunk_overlap = 150
-
-# Retrieval settings
-top_k = 5  # Number of chunks to retrieve
-```
-
-## 🧪 Testing
-
-Test with the provided sample documents or your own:
+### Step 5: Install Python Dependencies
 
 ```bash
-# Test with a PDF
-curl -X POST "http://localhost:8000/upload" -F "file=@sample.pdf"
-
-# Ask a question
-curl -X POST "http://localhost:8000/ask" \
-  -H "Content-Type: application/json" \
-  -d '{"question": "Summarize the key points"}'
+pip install -r requirements.txt
 ```
 
-## 🐛 Troubleshooting
+---
 
-### Ollama connection error
+## 🔧 Setup Ollama & Download Model
+
+### Step 1: Start Ollama Server
+
+Open Command Prompt and run:
+```bash
+ollama serve
 ```
-Cannot connect to Ollama. Make sure it's running: ollama serve
+
+**Keep this terminal open** - Ollama must be running for the chatbot to work.
+
+### Step 2: Download Mistral Model
+
+Open a **NEW** Command Prompt and run:
+```bash
+ollama pull mistral:7b
 ```
-**Solution**: Start Ollama in a separate terminal: `ollama serve`
 
-### Tesseract not found
+This will download the Mistral 7B model (~4GB). Wait for download to complete.
+
+### Step 3: Verify Model Installation
+
+```bash
+ollama list
 ```
-TesseractNotFoundError
+
+You should see `mistral:7b` in the list.
+
+### Step 4: Test Ollama
+
+```bash
+ollama run mistral:7b
 ```
-**Solution**: Install tesseract-ocr (see Prerequisites)
 
-### Out of memory
-**Solution**: Reduce `chunk_size` or use fewer `top_k` chunks
+Type a test message. If it responds, Ollama is working correctly. Type `/bye` to exit.
 
-## 📝 Tools & Technologies
+### Step 5: Check Ollama Port
 
-- **FastAPI**: REST API framework
-- **Mistral 7B**: LLM via Ollama
-- **SentenceTransformers**: Embeddings (`BAAI/bge-base-en-v1.5`)
-- **FAISS**: Vector similarity search
-- **Cross-Encoder**: Reranking (`ms-marco-MiniLM-L-6-v2`)
-- **Unstructured**: Document parsing
-- **LangChain**: Text splitting
+Ollama runs on port `11434` by default. Verify it's running:
+```bash
+curl http://localhost:11434
+```
 
-## 🎥 Demo Video
+You should see: `Ollama is running`
 
-[Link to 60-120 second Loom demo]
+---
 
-## 📄 License
+## ▶️ Running the Application
 
-MIT License
+### Step 1: Ensure Ollama is Running
 
-## 👤 Author
+In one Command Prompt:
+```bash
+ollama serve
+```
 
-[Your Name]
+**Keep this window open!**
 
-## 📧 Contact
+### Step 2: Start Streamlit App
 
-For questions or issues, please open a GitHub issue.
+In a **NEW** Command Prompt (in project folder with venv activated):
+```bash
+streamlit run app.py
+```
+
+### Step 3: Access Application
+
+- Browser should automatically open to `http://localhost:8501`
+- If not, manually open the URL shown in terminal
+
+---
+
+## 🐛 Common Issues & Solutions
+
+### Issue 1: "Ollama connection error"
+
+**Solution:**
+```bash
+# Make sure Ollama is running
+ollama serve
+
+# Check if model exists
+ollama list
+
+# Test the model
+ollama run mistral:7b
+```
+
+### Issue 2: "Tesseract not found"
+
+**Solution:**
+- Verify Tesseract is installed: `tesseract --version`
+- Check PATH is set correctly
+- Restart Command Prompt after adding to PATH
+
+### Issue 3: "Module not found" errors
+
+**Solution:**
+```bash
+# Make sure virtual environment is activated
+venv\Scripts\activate
+
+# Reinstall dependencies
+pip install -r requirements.txt
+```
+
+### Issue 4: Ollama port already in use
+
+**Solution:**
+```bash
+# Check what's running on port 11434
+netstat -ano | findstr :11434
+
+# Kill the process if needed (replace PID with actual number)
+taskkill /PID <PID> /F
+
+# Restart Ollama
+ollama serve
+```
+
+### Issue 5: Streamlit port 8501 already in use
+
+**Solution:**
+```bash
+# Run on different port
+streamlit run app.py --server.port 8502
+```
+
+---
+
+## 📁 Project Structure
+
+```
+rag-chatbot/
+│
+├── app.py                 # Streamlit frontend
+├── rag_backend.py         # Backend RAG logic
+├── requirements.txt       # Python dependencies
+└── README.md             # This file
+```
+
+---
+
+## 🔄 Quick Start Checklist
+
+- [ ] Python 3.8+ installed
+- [ ] Ollama installed and `ollama --version` works
+- [ ] Tesseract installed and `tesseract --version` works
+- [ ] Virtual environment created and activated
+- [ ] Dependencies installed via `pip install -r requirements.txt`
+- [ ] Mistral model downloaded: `ollama pull mistral:7b`
+- [ ] Ollama server running: `ollama serve` (in separate terminal)
+- [ ] Streamlit app started: `streamlit run app.py`
+- [ ] Browser opened to `http://localhost:8501`
+
+---
+
+## 📝 Notes
+
+- **Keep Ollama running**: The `ollama serve` command must stay running while using the chatbot
+- **First run**: Initial model loading may take 10-20 seconds
+- **Large documents**: Processing time increases with document size
+- **Memory**: Ensure at least 8GB RAM for smooth operation
