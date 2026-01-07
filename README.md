@@ -5,7 +5,7 @@ https://github.com/user-attachments/assets/a888c955-de79-462b-b568-431e4bed79de
 
 A Retrieval-Augmented Generation (RAG) system that allows users to upload documents and ask questions about their content using local LLM.
 
-## ✨ Features
+## Features
 
 - Multi-format document support (PDF, DOCX, CSV, TXT)
 - OCR support for scanned PDFs
@@ -13,7 +13,7 @@ A Retrieval-Augmented Generation (RAG) system that allows users to upload docume
 - Conversation memory with chat history download
 - Completely local - no API costs
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **LLM**: Ollama Mistral 7B
 - **Embeddings**: SentenceTransformers (BAAI/bge-base-en-v1.5)
@@ -21,7 +21,7 @@ A Retrieval-Augmented Generation (RAG) system that allows users to upload docume
 - **Reranking**: CrossEncoder (ms-marco-MiniLM-L-6-v2)
 - **Frontend**: Streamlit
 
-## 📋 Prerequisites (Windows)
+## Prerequisites (Windows)
 
 Before installation, you need:
 - Python 3.8+ (Preferance 3.10) 
@@ -30,7 +30,7 @@ Before installation, you need:
 
 ---
 
-## 🚀 Installation Guide (Windows)
+## Installation Guide (Windows)
 
 ### Step 1: Install Ollama
 
@@ -124,7 +124,7 @@ You should see: `Ollama is running`
 
 ---
 
-## ▶️ Running the Application
+## Running the Application
 
 ### Step 1: Ensure Ollama is Running
 
@@ -207,7 +207,7 @@ streamlit run app.py --server.port 8502
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 rag-chatbot/
@@ -220,7 +220,7 @@ rag-chatbot/
 
 ---
 
-## 🔄 Quick Start Checklist
+## Quick Start Checklist
 
 - [ ] Python 3.8+ (Preferance 3.10) 
 - [ ] Ollama installed and `ollama --version` works
@@ -234,7 +234,7 @@ rag-chatbot/
 
 ---
 
-## 📝 Notes
+## Notes
 
 - **Keep Ollama running**: The `ollama serve` command must stay running while using the chatbot
 - **First run**: Initial model loading may take 10-20 seconds
