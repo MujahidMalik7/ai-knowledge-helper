@@ -149,7 +149,7 @@ streamlit run app.py
 
 ---
 
-## 🐛 Common Issues & Solutions
+## Common Issues & Solutions
 
 ### Issue 1: "Ollama connection error"
 
